@@ -1,0 +1,20 @@
+---
+title: "R Practice: Tidy Data and Joins"
+format: html
+---
+
+```{r}
+#| warning: false
+#| message: false
+
+library(readr)
+library(dplyr)
+library(lubridate) # for bonus question
+
+# Attaching package: ‘lubridate’. The following objects are masked from ‘package:base’: date, intersect, set diff, union
+
+```
+
+
+
+
