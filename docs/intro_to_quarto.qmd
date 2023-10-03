@@ -1,0 +1,49 @@
+---
+title: "Intro to Quarto"
+format: html
+bibliography: references.bib
+---
+
+# Header 1
+
+I'm going to **bold** this text
+
+## Header 2
+
+### Header 3
+
+#### Header 4
+
+*italic*
+
+*italic*
+
+***italic*** #bolds and italicizes
+
+-   Item 1
+-   Item 2
+    -   Item 2
+
+This is a very important fact [@oke2020]
+
+| Col1      | Col2 | Col3 |
+|-----------|------|------|
+| element 1 |      |      |
+|           |      |      |
+|           |      |      |
+
+## Code chunks
+
+```{r}
+#| echo: false
+
+x <- 4*8
+
+hight_vec <- c(5.2, 6.0, 5.7)
+
+x
+
+hight_vec
+
+```
+
