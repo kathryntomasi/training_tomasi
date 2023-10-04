@@ -15,6 +15,99 @@ library(lubridate) # for bonus question
 
 ```
 
+## 9.1 Exercise: Practice Joins
+
+### Question 1: Read in the data
+
+```{r}
+#| warning: false
+#| message: false
+
+bird_observations <-read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=53edaa7a0e083013d9bf20322db1780e")
+
+surveys <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=b2466fa5cb5ed7ee1ea91398fc291c59")
+
+sites <-  read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=81bf72420e69077097fb0790dcdc63a6")
+
+taxalist <- read_csv("https://portal.edirepository.org/nis/dataviewer?packageid=knb-lter-cap.256.10&entityid=58f863b7e3066e68536a9cacdc7bd58e")
+```
+
+### Question 2a: Get familiar with the data
+
+```{r}
+
+str(bird_observations)
+
+# view data in a spreadsheet-style viewer
+View(bird_observations)
+
+# returns dimensions of the dataframe by number of rows and number of cols
+dim(bird_observations)
+
+# returns the top six rows of the dataframe
+head(bird_observations)
+
+# returns all the columns and some info about the cols
+glimpse(bird_observations)
+
+# similar to glimpse but returns some summary statistics about the cols
+summary(bird_observations)
+
+# returns column names 
+names(bird_observations)
+
+# returns unique values in a column. In this case we can see all the different bird species IDs
+unique(bird_observations$species_id)
+```
+
+### Question 2b: Primary and foreign keys
+
+```{r}
+
+dim(bird_observations)
+
+test <- bird_observations %>% group_by(survey_id) %>% tally() %>% filter(n>1)
+
+dim(test)
+
+test2 <- bird_observations %>% distinct(survey_id, site_id, species_id)
+
+dim(test2)
+
+test3 <- bird_observations %>% unite(primary_key, survey_id, site_id, species_id, sep = "-") %>%  distinct(primary_key)
+
+# Way to check if there are duplicates in the columns I think are the primary keys (as primary keys are columns that have all unique values)
+
+# Think there is an error - checked with instructor that the dimensions from the distinct function are not matching the dimensions of the bird_observation data - she will look into it
+
+```
+
+
+The primary key for the table bird_observations is actually a compound of the column survey_id, site_id, and species_id. 
+
+The primary key for the table taxalist is species_id. 
+
+The species_id is the foreign key for both data frames. 
+
+
+### Question 3: Subset of bird_observations
+
+```{r}
+birds_subset <- bird_observations %>% 
+  select(c(species_id,site_id)) %>% 
+  filter(species_id %in% c("BHCO", "RWBL")) %>% 
+  filter(site_id %in% c("LI-W", "NU-C"))
+
+#this creates a new data frame with only the species_id column and the site_id column and filters so that just the two values specified above are in each of the columns. 
+
+birds_subset <- bird_observations %>% 
+  filter(species_id %in% c("BHCO", "RWBL")) %>% 
+  filter(site_id %in% c("LI-W", "NU-C"))
+
+#we don't want to create a new dataframe, though, with only two columns, so we are only going to use the filter function to grab these specific values from these two columns
+
+```
+
 
 
 
